@@ -151,7 +151,6 @@ public class P extends MPlugin
 			Board.save();
 			Conf.save();
 		}
-		EssentialsFeatures.unhookChat();
 		if (AutoLeaveTask != null)
 		{
 			this.getServer().getScheduler().cancelTask(AutoLeaveTask);
