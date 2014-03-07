@@ -256,7 +256,7 @@ public class FactionsEntityListener implements Listener
 	{
 		if (event.isCancelled()) return;
 		
-		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(event.getCombuster(), event.getEntity(), EntityDamageEvent.DamageCause.FIRE, 0);
+		EntityDamageByEntityEvent sub = new EntityDamageByEntityEvent(event.getCombuster(), event.getEntity(), EntityDamageEvent.DamageCause.FIRE, 0.0);
 		if ( ! this.canDamagerHurtDamagee(sub, false))
 			event.setCancelled(true);
 		sub = null;
