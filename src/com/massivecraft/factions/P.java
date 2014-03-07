@@ -25,8 +25,9 @@ import com.massivecraft.factions.integration.capi.CapiFeatures;
 import com.massivecraft.factions.listeners.FactionsBlockListener;
 import com.massivecraft.factions.listeners.FactionsChatListener;
 import com.massivecraft.factions.listeners.FactionsEntityListener;
-import com.massivecraft.factions.listeners.FactionsExploitListener;
 import com.massivecraft.factions.listeners.FactionsPlayerListener;
+import com.massivecraft.factions.listeners.exploits.EnderPearlExploitListener;
+import com.massivecraft.factions.listeners.exploits.ObsidianGeneratorExploitListener;
 import com.massivecraft.factions.struct.ChatMode;
 import com.massivecraft.factions.util.AutoLeaveTask;
 import com.massivecraft.factions.util.LazyLocation;
@@ -49,7 +50,8 @@ public class P extends MPlugin
 	public final FactionsPlayerListener playerListener;
 	public final FactionsChatListener chatListener;
 	public final FactionsEntityListener entityListener;
-	public final FactionsExploitListener exploitListener;
+	public final ObsidianGeneratorExploitListener obsidianExploitListener;
+	public final EnderPearlExploitListener enderPearlExploitListener;
 	public final FactionsBlockListener blockListener;
 	
 	// Persistance related
@@ -68,7 +70,8 @@ public class P extends MPlugin
 		this.playerListener = new FactionsPlayerListener(this);
 		this.chatListener = new FactionsChatListener(this);
 		this.entityListener = new FactionsEntityListener(this);
-		this.exploitListener = new FactionsExploitListener();
+		this.obsidianExploitListener = new ObsidianGeneratorExploitListener();
+		this.enderPearlExploitListener = new EnderPearlExploitListener();
 		this.blockListener = new FactionsBlockListener(this);
 	}
 
@@ -119,8 +122,12 @@ public class P extends MPlugin
 		getServer().getPluginManager().registerEvents(playerListener, this);
 		getServer().getPluginManager().registerEvents(chatListener, this);
 		getServer().getPluginManager().registerEvents(entityListener, this);
-		getServer().getPluginManager().registerEvents(exploitListener, this);
 		getServer().getPluginManager().registerEvents(blockListener, this);
+		
+		if (Conf.handleExploitObsidianGenerators)
+			getServer().getPluginManager().registerEvents(obsidianExploitListener, this);
+		if (Conf.handleExploitEnderPearlClipping)
+			getServer().getPluginManager().registerEvents(enderPearlExploitListener, this);
 
 		// since some other plugins execute commands directly through this command interface, provide it
 		this.getCommand(this.refCommand).setExecutor(this);
