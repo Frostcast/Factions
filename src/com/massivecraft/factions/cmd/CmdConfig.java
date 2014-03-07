@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 
 import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.P;
-import com.massivecraft.factions.integration.SpoutFeatures;
 import com.massivecraft.factions.struct.Permission;
 
 public class CmdConfig extends FCommand
@@ -294,9 +293,6 @@ public class CmdConfig extends FCommand
 		}
 		// save change to disk
 		Conf.save();
-
-		// in case some Spout related setting was changed
-		SpoutFeatures.updateAppearances();
 	}
 	
 }

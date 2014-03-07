@@ -2,7 +2,6 @@ package com.massivecraft.factions.cmd;
 
 import com.massivecraft.factions.Conf;
 import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.integration.SpoutFeatures;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.zcore.util.TextUtil;
 
@@ -43,10 +42,6 @@ public class CmdTitle extends FCommand
 		// Inform
 		myFaction.msg("%s<i> changed a title: %s", fme.describeTo(myFaction, true), you.describeTo(myFaction, true));
 
-		if (Conf.spoutFactionTitlesOverNames)
-		{
-			SpoutFeatures.updateAppearances(me);
-		}
 	}
 	
 }

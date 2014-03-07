@@ -30,7 +30,6 @@ import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.P;
-import com.massivecraft.factions.integration.SpoutFeatures;
 import com.massivecraft.factions.struct.Permission;
 import com.massivecraft.factions.struct.Relation;
 import com.massivecraft.factions.struct.Role;
@@ -56,10 +55,8 @@ public class FactionsPlayerListener implements Listener
 
 		// Store player's current FLocation and notify them where they are
 		me.setLastStoodAt(new FLocation(event.getPlayer().getLocation()));
-		if ( ! SpoutFeatures.updateTerritoryDisplay(me))
-			me.sendFactionHereMessage();
+		me.sendFactionHereMessage();
 
-		SpoutFeatures.updateAppearancesShortly(event.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -77,7 +74,6 @@ public class FactionsPlayerListener implements Listener
 		{
 			myFaction.memberLoggedOff();
 		}
-		SpoutFeatures.playerDisconnect(me);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -113,20 +109,13 @@ public class FactionsPlayerListener implements Listener
 		me.setLastStoodAt(to);
 
 		// Did we change "host"(faction)?
-		boolean spoutClient = SpoutFeatures.availableFor(player);
 		Faction factionFrom = Board.getFactionAt(from);
 		Faction factionTo = Board.getFactionAt(to);
 		boolean changedFaction = (factionFrom != factionTo);
 
-		if (changedFaction && SpoutFeatures.updateTerritoryDisplay(me))
-			changedFaction = false;
-
 		if (me.isMapAutoUpdating())
 		{
 			me.sendMessage(Board.getMap(me.getFaction(), to, player.getLocation().getYaw()));
-
-			if (spoutClient && Conf.spoutTerritoryOwnersShow)
-				SpoutFeatures.updateOwnerList(me);
 		}
 		else
 		{
@@ -142,12 +131,6 @@ public class FactionsPlayerListener implements Listener
 					&&
 					Conf.ownedMessageOnBorder
 					&&
-					(
-						!spoutClient
-						||
-						!Conf.spoutTerritoryOwnersShow
-					)
-					&&
 					myFaction == factionTo
 					&&
 					!ownersTo.isEmpty()
@@ -155,10 +138,6 @@ public class FactionsPlayerListener implements Listener
 				{
 					me.sendMessage(Conf.ownedLandMessage+ownersTo);
 				}
-			}
-			else if (spoutClient && Conf.spoutTerritoryOwnersShow)
-			{
-				SpoutFeatures.updateOwnerList(me);
 			}
 			else if
 			(
@@ -579,8 +558,6 @@ public class FactionsPlayerListener implements Listener
 		{
 			return;
 		}
-
-		SpoutFeatures.playerDisconnect(badGuy);
 
 		// if player was banned (not just kicked), get rid of their stored info
 		if (Conf.removePlayerDataWhenBanned && event.getReason().equals("Banned by admin."))

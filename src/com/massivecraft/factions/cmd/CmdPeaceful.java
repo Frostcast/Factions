@@ -3,7 +3,6 @@ package com.massivecraft.factions.cmd;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.integration.SpoutFeatures;
 import com.massivecraft.factions.struct.Permission;
 
 public class CmdPeaceful extends FCommand
@@ -57,7 +56,6 @@ public class CmdPeaceful extends FCommand
 			}
 		}
 
-		SpoutFeatures.updateAppearances(faction);
 	}
 	
 }
